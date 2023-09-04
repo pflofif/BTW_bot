@@ -26,7 +26,10 @@ user = User()
 
 @bot.message_handler(commands=['start'])
 def ask_name(message):
-    text = 'Хочемо дізнатись тепер трохи більше про тебе. Почнімо реєстрацію! Як тебе звати?'
+    about_btw = "Що ж таке це BTW?\n BEST Training Week — це тиждень тренінгів для всіх, хто прагне розвиватися та вдосконалювати свої навички. Наші спікери поговорять про різні теми, такі як особистий бренд IT, психологію, подорожі та багато іншого. Це унікальна нагода вивчити нове і знайти спільноту однодумців. Реєстрація проста, а доступ до знань — безплатний."
+    bot.send_message(message.chat.id, about_btw)
+
+    text = 'Хочемо дізнатись тепер трохи більше про тебе. Почнімо реєстрацію!\n Як тебе звати?'
     sent_msg = bot.send_message(message.chat.id, text, parse_mode="Markdown")
     bot.register_next_step_handler(sent_msg, ask_department)
 
@@ -85,7 +88,7 @@ def ask_is_confirm(message):
     user.isVisitBefore = message.text
     text = 'Дякую! І останнє, дуже важливе. Цією кнопкою підтверджую, що надана інформація є достовірною, даю згоду на обробку та зберігання персональних даних, вказаних у боті, даю дозвіл на фото- та відеозйомку під час проєкту і зобов’язуюсь дотримуватись всіх протоколів безпеки.'
 
-    keyboard = ["Підтверджую"]
+    keyboard = ["Підтверджую!"]
 
     sent_msg = send_message_with_reply_keyboard(
         message.chat.id, text, keyboard)
@@ -99,7 +102,7 @@ def confirm_handler(message):
 
     send_message_with_reply_keyboard(
         message.chat.id, text, keyboard)
-    
+
     try:
         collection.insert_one(user.__dict__)
     except Exception as e:
