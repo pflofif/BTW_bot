@@ -1,1 +1,1 @@
-web: gunicorn bot:app --log-file -
+web: python bot.py $PORT
