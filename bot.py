@@ -13,12 +13,13 @@ collection = db["users"]
 
 
 class User:
-    def __init__(self, name=None, department=None, course=None, phone=None, isVisitBefore=None):
+    def __init__(self, name=None, department=None, course=None, phone=None, isVisitBefore=None, chat_id=None):
         self.name = name
         self.department = department
         self.course = course
         self.phone = phone
         self.isVisitBefore = isVisitBefore
+        self.chat_id = chat_id
 
 
 user = User()
@@ -26,6 +27,7 @@ user = User()
 
 @bot.message_handler(commands=['start'])
 def ask_name(message):
+    user.chat_id = message.chat.id
     about_btw = "Що ж таке це BTW?\n\nBEST Training Week — це тиждень тренінгів для всіх, хто прагне розвиватися та вдосконалювати свої навички. Наші спікери поговорять про різні теми, такі як особистий бренд IT, психологію, подорожі та багато іншого. Це унікальна нагода вивчити нове і знайти спільноту однодумців. Реєстрація проста, а доступ до знань — безплатний."
     bot.send_message(message.chat.id, about_btw)
 
