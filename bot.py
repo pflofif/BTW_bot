@@ -36,7 +36,7 @@ def ask_name(message):
     bot.register_next_step_handler(sent_msg, ask_department)
 
 
-@bot.message_handler(commands=['Розклад'])
+@bot.message_handler(func=lambda message: message.text.lower() == 'розклад')
 def send_schedule(message):
     with open('schedule_text.txt', 'r', encoding='utf-8') as file:
         text = file.read()
