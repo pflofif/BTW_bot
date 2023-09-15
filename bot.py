@@ -36,6 +36,17 @@ def ask_name(message):
     bot.register_next_step_handler(sent_msg, ask_department)
 
 
+@bot.message_handler(commands=['Розклад'])
+def send_schedule(message):
+    with open('schedule_text.txt', 'r', encoding='utf-8') as file:
+        text = file.read()
+
+    schedule_text = text.split('\n\n\n')
+
+    for paragraph in schedule_text:
+        bot.send_message(message.chat.id, paragraph)
+
+
 def ask_department(message):
     user.name = message.text
 
@@ -102,8 +113,10 @@ def confirm_handler(message):
 
     keyboard = ["Розклад", "Спікери"]
 
-    send_message_with_reply_keyboard(
-        message.chat.id, text, keyboard)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add(keyboard)
+    bot.send_message(
+        message.chat.id, text, parse_mode="Markdown", reply_markup=markup)
 
     try:
         collection.insert_one(user.__dict__)
