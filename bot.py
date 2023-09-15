@@ -99,6 +99,11 @@ def ask_visiting_of_prev_btw(message):
 
 def ask_is_confirm(message):
     user.isVisitBefore = message.text
+    try:
+        collection.insert_one(user.__dict__)
+    except Exception as e:
+        print(str(e))
+    
     text = 'Дякую! І останнє, дуже важливе. Цією кнопкою підтверджую, що надана інформація є достовірною, даю згоду на обробку та зберігання персональних даних, вказаних у боті, даю дозвіл на фото- та відеозйомку під час проєкту і зобов’язуюсь дотримуватись всіх протоколів безпеки.'
 
     keyboard = ["Підтверджую!"]
@@ -111,17 +116,11 @@ def ask_is_confirm(message):
 def confirm_handler(message):
     text = "Супер! Реєстрація завершена. Чекаємо тебе на BTW з 18-22 вересня!🥰"
 
-    keyboard = ["Розклад", "Спікери"]
-
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add(keyboard)
+    markup.add("Розклад")
+    markup.add("Спікери")
     bot.send_message(
         message.chat.id, text, parse_mode="Markdown", reply_markup=markup)
-
-    try:
-        collection.insert_one(user.__dict__)
-    except Exception as e:
-        print(str(e))
 
 
 def send_message_with_reply_keyboard(chat_id, text, keyboard):
