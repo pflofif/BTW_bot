@@ -47,6 +47,43 @@ def send_schedule(message):
         bot.send_message(message.chat.id, paragraph)
 
 
+@bot.message_handler(func=lambda message: message.text.lower() == 'чат btw xii')
+def send_chat_link(message):
+    text = "https://t.me/+3S1qZOXANY03MWYy"
+    bot.send_message(message.chat.id, text)
+
+
+@bot.message_handler(func=lambda message: message.text.lower() == 'спікери')
+def send_speakers(message):
+    bot.send_message(message.chat.id, "Зустрічайте, спікери BTW XII!")
+    speakers = [
+        {
+            "image_path": "images/second.png",
+            "caption": "Юлія Ющук\nОсобистий бренд в ІТ"
+        },
+        {
+            "image_path": "images/three.png",
+            "caption": "Шудра Дмитро\nЯк розробляють ігри та ким можна працювати у геймдеві"
+        },
+        {
+            "image_path": "images/first.png",
+            "caption": "Ден Бєліцький\nТуризм в межах України"
+        },
+        {
+            "image_path": "images/four.png",
+            "caption": "Aнжела Матусовська\nЯк попасти в Рек"
+        },
+        {
+            "image_path": "images/five.png",
+            "caption": "Михайло Пацан\nChatGPT та Web3 - як інструменти для ефективного розвитку"
+        }
+    ]
+
+    for speaker in speakers:
+        with open(speaker["image_path"], "rb") as img:
+            bot.send_photo(message.chat.id, img, caption=speaker["caption"])
+
+
 def ask_department(message):
     user.name = message.text
 
@@ -103,7 +140,7 @@ def ask_is_confirm(message):
         collection.insert_one(user.__dict__)
     except Exception as e:
         print(str(e))
-    
+
     text = 'Дякую! І останнє, дуже важливе. Цією кнопкою підтверджую, що надана інформація є достовірною, даю згоду на обробку та зберігання персональних даних, вказаних у боті, даю дозвіл на фото- та відеозйомку під час проєкту і зобов’язуюсь дотримуватись всіх протоколів безпеки.'
 
     keyboard = ["Підтверджую!"]
@@ -119,6 +156,7 @@ def confirm_handler(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("Розклад")
     markup.add("Спікери")
+    markup.add("Чат BTW XII")
     bot.send_message(
         message.chat.id, text, parse_mode="Markdown", reply_markup=markup)
 
