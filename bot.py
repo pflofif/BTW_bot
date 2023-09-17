@@ -46,6 +46,9 @@ def send_schedule(message):
     for paragraph in schedule_text:
         bot.send_message(message.chat.id, paragraph)
 
+    with open("schedule.png", "rb") as img:
+        bot.send_photo(message.chat.id, img)
+
 
 @bot.message_handler(func=lambda message: message.text.lower() == 'чат btw xii')
 def send_chat_link(message):
@@ -136,10 +139,6 @@ def ask_visiting_of_prev_btw(message):
 
 def ask_is_confirm(message):
     user.isVisitBefore = message.text
-    try:
-        collection.insert_one(user.__dict__)
-    except Exception as e:
-        print(str(e))
 
     text = 'Дякую! І останнє, дуже важливе. Цією кнопкою підтверджую, що надана інформація є достовірною, даю згоду на обробку та зберігання персональних даних, вказаних у боті, даю дозвіл на фото- та відеозйомку під час проєкту і зобов’язуюсь дотримуватись всіх протоколів безпеки.'
 
@@ -159,6 +158,11 @@ def confirm_handler(message):
     markup.add("Чат BTW XII")
     bot.send_message(
         message.chat.id, text, parse_mode="Markdown", reply_markup=markup)
+
+    try:
+        collection.insert_one(user.__dict__)
+    except Exception as e:
+        print(str(e))
 
 
 def send_message_with_reply_keyboard(chat_id, text, keyboard):
